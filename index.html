@@ -1,0 +1,1089 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberDwarf BTC Rental Mining Rig</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <!-- SDK ADSGRAM (Aktifkan jika menggunakan Adsgram di Telegram Mini App) -->
+    <!-- <script src="https://adsgram.ai/js/adsgram-ad-sdk.js"></script> -->
+
+    <style>
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #060913;
+            color: #38bdf8;
+            user-select: none;
+        }
+        .font-pixel {
+            font-family: 'Press Start 2P', monospace;
+        }
+        .pixel-box {
+            background-color: #0f172a;
+            border: 2px solid #1e293b;
+            box-shadow: 4px 4px 0px #020617;
+        }
+        .pixel-box-cyan {
+            border-color: #06b6d4;
+            box-shadow: 4px 4px 0px #083344;
+        }
+        .pixel-box-amber {
+            border-color: #f59e0b;
+            box-shadow: 4px 4px 0px #451a03;
+        }
+        .pixel-box-purple {
+            border-color: #a855f7;
+            box-shadow: 4px 4px 0px #3b0764;
+        }
+        .pixel-btn {
+            box-shadow: 0 4px 0 #0284c7;
+            transition: transform 0.05s;
+        }
+        .pixel-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #0284c7;
+        }
+        .pixel-btn-amber {
+            box-shadow: 0 4px 0 #b45309;
+        }
+        .pixel-btn-amber:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #b45309;
+        }
+        .pixel-btn-green {
+            box-shadow: 0 4px 0 #15803d;
+        }
+        .pixel-btn-green:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #15803d;
+        }
+        .pixel-btn-purple {
+            box-shadow: 0 4px 0 #7e22ce;
+        }
+        .pixel-btn-purple:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #7e22ce;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-10 flex flex-col items-center">
+
+    <header class="w-full max-w-6xl p-4 bg-slate-900 border-b-2 border-slate-800 flex flex-wrap justify-between items-center gap-4 sticky top-0 z-40 shadow-xl">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-amber-500 rounded flex items-center justify-center font-pixel text-slate-950 text-xl font-bold border-2 border-amber-300 shadow-md">
+                ₿
+            </div>
+            <div>
+                <h1 class="font-pixel text-sm md:text-base text-amber-400 tracking-wider">CYBER-DWARF BTC</h1>
+                <p id="t-subtitle" class="text-xs text-slate-400">Simulator Sewa Mining Rig (Ultra Smooth)</p>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+            <!-- SAKELAR BAHASA -->
+            <button onclick="toggleLanguage()" id="langToggleBtn" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/50 font-bold px-2.5 py-2 rounded flex items-center gap-1 cursor-pointer">
+                🌐 <span id="currentLangLabel">ID / EN</span>
+            </button>
+
+            <!-- STATUS VIP -->
+            <button onclick="openModal('vipModal')" class="pixel-btn pixel-btn-amber bg-amber-600 hover:bg-amber-500 text-slate-950 font-pixel text-xs px-3 py-2 rounded flex items-center gap-1 cursor-pointer">
+                ⭐ <span id="vipLevelBadge">VIP 0</span>
+            </button>
+
+            <!-- REDEEM KODE (COMING SOON) -->
+            <button onclick="openModal('redeemModal')" class="pixel-btn pixel-btn-purple bg-purple-600 hover:bg-purple-500 text-white font-pixel text-xs px-3 py-2 rounded flex items-center gap-1 cursor-pointer relative overflow-hidden">
+                🎁 <span id="t-btnRedeem">REDEEM KODE</span>
+                <span class="absolute -top-1 -right-1 bg-amber-500 text-slate-950 font-sans font-extrabold text-[8px] px-1 rounded-bl shadow animate-pulse">SOON</span>
+            </button>
+
+            <!-- PENARIKAN -->
+            <button onclick="openModal('wdModal')" class="pixel-btn pixel-btn-green bg-emerald-600 hover:bg-emerald-500 text-white font-pixel text-xs px-3 py-2 rounded flex items-center gap-1 cursor-pointer">
+                ⚡ <span id="t-btnWithdraw">PENARIKAN</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full max-w-6xl p-3 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- KOLOM KIRI -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+
+            <!-- Realtime Satoshi Dashboard -->
+            <div class="pixel-box pixel-box-amber p-4 rounded-lg relative overflow-hidden">
+                <div class="flex justify-between items-start mb-2">
+                    <span id="t-balLabel" class="text-xs font-pixel text-slate-400 uppercase">Saldo Bitcoin Saat Ini</span>
+                    <span id="t-passiveBadge" class="text-xs text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800 animate-pulse">● PASIF AUTOMATIS</span>
+                </div>
+                
+                <div class="flex items-baseline space-x-2">
+                    <div id="btcBalanceDisplay" class="font-pixel text-xl sm:text-3xl text-amber-400 tracking-tight">
+                        0.00000000
+                    </div>
+                    <span class="text-amber-500 font-bold text-sm sm:text-base">BTC</span>
+                </div>
+                
+                <div class="flex justify-between items-center mt-3 pt-3 border-t border-slate-800/80 text-xs">
+                    <div>
+                        <span id="t-totalSats" class="text-slate-400">Total Satoshi:</span>
+                        <span id="satsBalanceDisplay" class="text-white font-bold font-mono ml-1">0.0000</span>
+                        <span class="text-amber-400">Sats</span>
+                    </div>
+                    <div>
+                        <span id="t-estUsd" class="text-slate-400">Nilai Est USD:</span>
+                        <span id="usdValueDisplay" class="text-emerald-400 font-bold ml-1">$0.00 USD</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner Hashrate -->
+            <div class="pixel-box pixel-box-cyan p-4 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-cyan-950 rounded-lg border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-pixel text-xl">
+                        ⚡
+                    </div>
+                    <div>
+                        <div id="t-totalHash" class="text-xs text-slate-400">TOTAL HASHRATE AKTIF</div>
+                        <div class="flex items-baseline space-x-2">
+                            <span id="totalHashrateDisplay" class="font-pixel text-xl md:text-2xl text-cyan-300">0.025</span>
+                            <span id="hashUnitDisplay" class="text-cyan-500 font-bold text-sm">TH/s</span>
+                            <span id="ghEquivalentDisplay" class="text-xs text-slate-500 font-mono">(25.0 GH/s)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right text-xs bg-slate-950/80 p-2.5 rounded border border-slate-800 w-full md:w-auto">
+                    <div class="flex justify-between md:justify-end gap-3 text-slate-400">
+                        <span id="t-perDay">Per Hari:</span>
+                        <span id="satsPerDayDisplay" class="text-amber-400 font-bold">0.75 Sats</span>
+                    </div>
+                    <div class="flex justify-between md:justify-end gap-3 text-slate-400 mt-1">
+                        <span id="t-perSec">Per Detik:</span>
+                        <span id="satsPerSecDisplay" class="text-emerald-400 font-mono">0.00000868 Sats</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas Cavern -->
+            <div class="pixel-box p-1 rounded-lg relative overflow-hidden bg-slate-950">
+                <div id="t-cavernTitle" class="absolute top-3 left-3 z-10 bg-slate-900/90 backdrop-blur px-2.5 py-1 rounded border border-slate-700 text-[10px] font-pixel text-cyan-400 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    DWARF CAVERN (60 FPS OPTIMIZED)
+                </div>
+                <canvas id="cavernCanvas" class="w-full h-64 md:h-80 rounded bg-slate-950 block"></canvas>
+            </div>
+
+            <!-- Grafik Telemetri -->
+            <div class="pixel-box p-4 rounded-lg flex flex-col gap-3">
+                <div class="flex justify-between items-center">
+                    <h3 id="t-graphTitle" class="font-pixel text-xs text-slate-300 flex items-center gap-2">
+                        <span class="text-cyan-400">📈</span> GRAFIK HASHRATE
+                    </h3>
+                </div>
+                <canvas id="telemetryCanvas" class="w-full h-32 bg-slate-950 rounded border border-slate-800/80"></canvas>
+            </div>
+
+        </div>
+
+        <!-- KOLOM KANAN -->
+        <div class="lg:col-span-5 flex flex-col gap-6">
+
+            <!-- PANEL BOOSTER IKLAN -->
+            <div class="pixel-box pixel-box-amber p-4 rounded-lg flex flex-col gap-3">
+                <div class="flex justify-between items-center">
+                    <h3 id="t-adTitle" class="font-pixel text-xs text-amber-400 flex items-center gap-2">
+                        <span>📺</span> BOOSTER IKLAN (24 JAM)
+                    </h3>
+                    <span id="adStackCounter" class="text-xs font-mono bg-amber-950 text-amber-300 px-2 py-0.5 rounded border border-amber-800">
+                        0 / 25 Iklan
+                    </span>
+                </div>
+
+                <p id="t-adDesc" class="text-xs text-slate-300">
+                    Tonton iklan untuk bonus <strong class="text-amber-400">+25 GH/s (0.025 TH/s)</strong> selama <strong class="text-white">24 jam</strong>. Batas slot disesuaikan tingkat VIP Anda.
+                </p>
+
+                <button id="watchAdBtn" onclick="triggerAdWatcher()" class="pixel-btn pixel-btn-amber bg-amber-600 hover:bg-amber-500 text-slate-950 font-pixel text-xs py-3 rounded-lg w-full font-bold flex items-center justify-center gap-2 cursor-pointer">
+                    🎬 <span id="t-watchAdBtnText">TONTON IKLAN (+25 GH/s / 24 Jam)</span>
+                </button>
+
+                <div class="mt-2 pt-2 border-t border-slate-800">
+                    <div class="flex justify-between items-center text-[11px] text-slate-400 mb-2">
+                        <span id="t-activeAdSlot">Slot Booster Iklan Aktif:</span>
+                        <span id="totalAdBoostHash" class="text-amber-400 font-bold">+0.00 TH/s</span>
+                    </div>
+                    <div id="adSlotsContainer" class="max-h-32 overflow-y-auto flex flex-col gap-1.5 pr-1 text-xs">
+                        <div id="t-noAdSlot" class="text-slate-500 text-center italic py-2 text-[11px]">Belum ada booster iklan aktif</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HARDWARE STORE (COMING SOON BADGE) -->
+            <div class="pixel-box pixel-box-cyan p-4 rounded-lg flex flex-col gap-4 relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 id="t-storeTitle" class="font-pixel text-xs text-cyan-400 mb-1">🛒 TOKO SEWA RIG HARDWARE</h3>
+                        <p id="t-storeSubtitle" class="text-xs text-slate-400">Sewa berdasarkan Paket Bitcoin Mining</p>
+                    </div>
+                    <span class="bg-amber-500 text-slate-950 font-pixel text-[9px] px-2 py-1 rounded shadow animate-pulse font-bold">COMING SOON</span>
+                </div>
+
+                <div class="flex items-center justify-between bg-slate-950 p-2 rounded border border-slate-800">
+                    <button onclick="changeCatalogTier(-1)" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 px-3 py-1 rounded font-bold cursor-pointer">◀</button>
+                    <div id="catalogTierDisplay" class="text-xs font-bold text-cyan-300 font-pixel">Paket Pemula</div>
+                    <button onclick="changeCatalogTier(1)" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 px-3 py-1 rounded font-bold cursor-pointer">▶</button>
+                </div>
+
+                <div id="catalogCardContainer" class="bg-slate-950 p-3 rounded border border-slate-800 flex flex-col gap-3">
+                    <!-- Rendered dynamically -->
+                </div>
+
+                <div class="mt-2 pt-3 border-t border-slate-800">
+                    <h4 id="t-activeRigTitle" class="font-pixel text-xs text-slate-300 mb-2">📋 STATUS RIG YANG SEDANG DISEWA</h4>
+                    <div id="activeRentalsContainer" class="flex flex-col gap-2">
+                        <div id="t-noActiveRig" class="text-slate-500 text-center italic py-4 text-xs">Tidak ada rig aktif yang disewa saat ini.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- MODAL VIP SYSTEM -->
+    <div id="vipModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="pixel-box pixel-box-amber p-6 rounded-lg max-w-sm w-full flex flex-col gap-4 relative text-center">
+            <button onclick="closeModal('vipModal')" class="absolute top-3 right-3 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
+
+            <h3 class="font-pixel text-xs text-amber-400 border-b border-slate-800 pb-2">⭐ STATUS VIP PEMAIN</h3>
+
+            <div class="bg-slate-950 p-3 rounded border border-slate-800 flex justify-between items-center text-xs">
+                <span class="text-slate-400">Tingkat VIP Saat Ini:</span>
+                <span id="vipModalLevel" class="text-amber-400 font-pixel font-bold">VIP 0</span>
+            </div>
+
+            <div class="bg-slate-900/90 p-3 rounded border border-slate-800 text-xs text-left space-y-1.5 font-mono">
+                <div class="flex justify-between border-b border-slate-800/60 pb-1">
+                    <span class="text-slate-400">VIP 0:</span>
+                    <span class="text-amber-400 font-bold">Max 25 Ad | Max WD 1,000 Sats</span>
+                </div>
+                <div class="flex justify-between pt-0.5">
+                    <span class="text-slate-400">VIP 1 (100 Iklan):</span>
+                    <span class="text-emerald-400 font-bold">Max 30 Ad | Max WD 1,500 Sats</span>
+                </div>
+            </div>
+
+            <div class="text-left">
+                <div class="flex justify-between text-xs text-slate-400 mb-1">
+                    <span>Kemajuan VIP 1 (Iklan VIP):</span>
+                    <span id="vipAdProgressText" class="text-amber-400 font-bold font-mono">0 / 100</span>
+                </div>
+                <div class="w-full bg-slate-950 h-3 rounded border border-slate-800 overflow-hidden">
+                    <div id="vipProgressBar" class="bg-amber-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <button id="watchVipAdBtn" onclick="triggerVipAdWatcher()" class="pixel-btn pixel-btn-amber bg-amber-600 hover:bg-amber-500 text-slate-950 font-pixel text-xs py-3 rounded font-bold cursor-pointer">
+                🎬 TONTON IKLAN VIP (+1 PROGRESS)
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL REDEEM VOUCHER (COMING SOON) -->
+    <div id="redeemModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="pixel-box pixel-box-purple p-6 rounded-lg max-w-sm w-full flex flex-col gap-4 relative">
+            <button onclick="closeModal('redeemModal')" class="absolute top-3 right-3 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
+
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <h3 id="t-redeemModalTitle" class="font-pixel text-xs text-purple-400">🎁 REDEEM KODE VOUCHER</h3>
+                <span class="bg-amber-500 text-slate-950 font-pixel text-[8px] px-1.5 py-0.5 rounded font-bold">SOON</span>
+            </div>
+            
+            <p id="t-redeemModalDesc" class="text-xs text-slate-300">Masukkan Kode Aktivasi yang diberikan oleh Admin Telegram setelah Anda melakukan pembayaran.</p>
+
+            <div>
+                <label id="t-redeemInputLabel" class="text-xs text-slate-400 block mb-1">Kode Voucher Aktivasi:</label>
+                <input type="text" id="voucherCodeInput" placeholder="CONTOH: PML-7D-XYZ" class="w-full bg-slate-950 border border-slate-800 rounded p-2.5 text-xs text-slate-200 uppercase font-mono">
+            </div>
+
+            <button onclick="redeemVoucherCode()" class="pixel-btn pixel-btn-purple bg-purple-600 hover:bg-purple-500 text-white font-pixel text-xs py-3 rounded w-full font-bold cursor-pointer">
+                <span id="t-redeemSubmitBtn">KLAIM & AKTIFKAN RIG</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL SIMULASI IKLAN -->
+    <div id="adModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="pixel-box pixel-box-amber p-6 rounded-lg max-w-sm w-full flex flex-col gap-4 relative text-center">
+            <h3 id="t-adModalTitle" class="font-pixel text-xs text-amber-400">Sponsor Iklan Kripto</h3>
+            <p id="t-adModalDesc" class="text-xs text-slate-300">Memproses penayangan iklan video...</p>
+            
+            <div class="bg-slate-950 p-6 rounded border border-slate-800 flex flex-col items-center justify-center gap-3">
+                <div class="text-3xl animate-bounce">📺</div>
+                <div id="adTimerText" class="font-pixel text-sm text-cyan-400">5 Detik...</div>
+                <div class="w-full bg-slate-900 h-3 rounded overflow-hidden border border-slate-800">
+                    <div id="adProgressBar" class="bg-amber-500 h-full w-0 transition-all duration-1000"></div>
+                </div>
+            </div>
+
+            <button id="claimAdBtn" disabled onclick="claimAdReward()" class="pixel-btn bg-slate-800 text-slate-500 font-pixel text-xs py-2.5 rounded cursor-not-allowed">
+                <span id="t-claimAdBtnText">KLAIM +25 GH/s (24 JAM)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL CHECKOUT PEMBAYARAN WEB3 -->
+    <div id="checkoutModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="pixel-box pixel-box-cyan p-6 rounded-lg max-w-md w-full flex flex-col gap-4 relative">
+            <button onclick="closeModal('checkoutModal')" class="absolute top-3 right-3 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
+
+            <h3 id="t-checkoutModalTitle" class="font-pixel text-xs text-cyan-400 border-b border-slate-800 pb-2">PEMBAYARAN WEB3 SEWA RIG</h3>
+
+            <div id="checkoutSummary" class="bg-slate-950 p-3 rounded border border-slate-800 text-xs space-y-1"></div>
+
+            <div>
+                <label id="t-selectPayLabel" class="text-xs text-slate-400 block mb-1">Pilih Kripto Pembayaran:</label>
+                <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+                    <div id="payUSDT_TON" onclick="selectPayCurrency('USDT_TON')" class="py-2 rounded border border-cyan-500 bg-cyan-950 text-cyan-300 text-center cursor-pointer leading-tight">USDT (TON)</div>
+                    <div id="payBTC" onclick="selectPayCurrency('BTC')" class="py-2 rounded border border-slate-800 bg-slate-900 text-slate-400 text-center cursor-pointer hover:border-slate-700 leading-tight">Bitcoin (BTC)</div>
+                    <div id="payTON" onclick="selectPayCurrency('TON')" class="py-2 rounded border border-slate-800 bg-slate-900 text-slate-400 text-center cursor-pointer hover:border-slate-700 leading-tight">TON Network</div>
+                    <div id="paySOL" onclick="selectPayCurrency('SOL')" class="py-2 rounded border border-slate-800 bg-slate-900 text-slate-400 text-center cursor-pointer hover:border-slate-700 leading-tight">Solana (SOL)</div>
+                </div>
+            </div>
+
+            <div class="bg-slate-950 p-3 rounded border border-slate-800 flex justify-between items-center text-xs">
+                <span id="t-totalRentalFee" class="text-slate-400">Total Biaya Sewa:</span>
+                <span id="checkoutCryptoAmount" class="text-amber-400 font-bold font-mono">0.00</span>
+            </div>
+
+            <div id="networkWarningBadge" class="bg-amber-950/60 border border-amber-600/50 p-2.5 rounded text-[11px] text-amber-300">
+                <span id="t-netWarnMsg"><strong>WAJIB:</strong> Kirim USDT via <strong>Jaringan TON (Jetton)</strong>. Jangan kirim via TRC20/ERC20!</span>
+            </div>
+
+            <div>
+                <label id="t-payWalletAddrLabel" class="text-xs text-slate-400 block mb-1">Alamat Wallet Pembayaran:</label>
+                <div class="flex items-center gap-2">
+                    <input type="text" id="checkoutWalletAddr" readonly class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-[11px] text-cyan-300 font-mono select-all" value="">
+                    <button onclick="copyWalletAddr()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-pixel text-[10px] px-3 py-2.5 rounded font-bold cursor-pointer"><span id="t-copyBtn">Salin</span></button>
+                </div>
+            </div>
+
+            <div class="bg-slate-950/60 p-3 rounded border border-slate-800 text-[11px] text-slate-300 space-y-1">
+                <strong id="t-confirmStepTitle" class="text-cyan-400 block">💡 Cara Konfirmasi:</strong>
+                <p id="t-confirmStep1">1. Transfer crypto sesuai nominal ke alamat wallet di atas.</p>
+                <p id="t-confirmStep2">2. Klik tombol di bawah untuk langsung kirim bukti transfer ke Admin via Telegram.</p>
+            </div>
+
+            <button onclick="processWeb3Payment()" class="pixel-btn pixel-btn-amber bg-amber-600 hover:bg-amber-500 text-slate-950 font-pixel text-xs py-3 rounded w-full font-bold cursor-pointer">
+                <span id="t-confirmPayBtnText">KONFIRMASI / KIRIM BUKTI KE ADMIN</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL PENARIKAN (WITHDRAWAL) -->
+    <div id="wdModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="pixel-box pixel-box-amber p-6 rounded-lg max-w-md w-full flex flex-col gap-4 relative">
+            <button onclick="closeModal('wdModal')" class="absolute top-3 right-3 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
+
+            <h3 id="t-wdModalTitle" class="font-pixel text-xs text-amber-400 border-b border-slate-800 pb-2">PENARIKAN HASIL TAMBANG (PAYOUT)</h3>
+
+            <!-- ESTIMASI WAKTU PENARIKAN (2-7 HARI) -->
+            <div class="bg-amber-950/60 border border-amber-600/50 p-2.5 rounded text-[11px] text-amber-300 flex items-start gap-2">
+                <span class="text-base">⏳</span>
+                <div>
+                    <strong id="t-wdTimeTitle" class="block text-amber-200">Estimasi Waktu Proses: 2 - 7 Hari Kerja</strong>
+                    <span id="t-wdTimeDesc">Setiap transaksi penarikan akan diproses dan diverifikasi oleh sistem mempool/admin dalam kurun waktu 2 hingga 7 hari. Batas maksimal penarikan disesuaikan dengan tingkat VIP Anda.</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-950 p-3 rounded border border-slate-800 flex justify-between items-center text-xs">
+                <span id="t-wdBalLabel" class="text-slate-400">Saldo Bisa Ditarik:</span>
+                <span id="wdModalSats" class="text-amber-400 font-bold font-mono">0.0000 Sats</span>
+            </div>
+
+            <div>
+                <label id="t-wdNetLabel" class="text-xs text-slate-400 block mb-1">Pilih Jaringan Penarikan:</label>
+                <select id="wdNetworkSelect" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-slate-200">
+                    <option value="LN">Bitcoin Lightning Network (Bebas Biaya)</option>
+                    <option value="BTC">BTC On-Chain Mainnet (Min 500 Sats)</option>
+                    <option value="USDT_TON">USDT (Jaringan TON / Telegram Wallet)</option>
+                    <option value="TON">TON Network Native</option>
+                </select>
+            </div>
+
+            <div>
+                <label id="t-wdAddrLabel" class="text-xs text-slate-400 block mb-1">Alamat Wallet Tujuan / LN Invoice:</label>
+                <input type="text" id="wdAddressInput" placeholder="lnbc1... atau UQ..." class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-slate-200 font-mono">
+            </div>
+
+            <div>
+                <label id="t-wdAmtLabel" class="text-xs text-slate-400 block mb-1">Jumlah Penarikan (Sats) [Min 500]:</label>
+                <input type="number" id="wdAmountInput" placeholder="Min 500 Sats" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-slate-200 font-mono">
+            </div>
+
+            <button onclick="submitWithdrawal()" class="pixel-btn pixel-btn-amber bg-amber-600 hover:bg-amber-500 text-slate-950 font-pixel text-xs py-3 rounded w-full font-bold cursor-pointer">
+                <span id="t-submitWdBtn">KIRIM PENARIKAN (PROSES MEMPOOL)</span>
+            </button>
+
+            <!-- RIWAYAT PENARIKAN -->
+            <div class="mt-2 pt-2 border-t border-slate-800">
+                <span id="t-wdHistoryTitle" class="text-[11px] text-slate-400 block mb-1.5 font-bold">Riwayat Penarikan Anda:</span>
+                <div id="wdHistoryList" class="max-h-24 overflow-y-auto flex flex-col gap-1 pr-1 text-xs">
+                    <div id="t-noWdHistory" class="text-slate-500 text-center italic py-2 text-[11px]">Belum ada riwayat penarikan</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIKA JAVASCRIPT LENGKAP -->
+    <script>
+        const ADMIN_PHONE = "+6285124991221"; // Nomor Telegram Admin
+        const SATS_PER_TH_DAY = 30;
+        const SATS_PER_TH_SEC = SATS_PER_TH_DAY / 86400;
+        const CRYPTO_RATES = { USDT_TON: 1, BTC: 68000, TON: 5.2, SOL: 145 };
+
+        // KONFIGURASI JARINGAN IKLAN
+        const ADSGRAM_BLOCK_ID = "YOUR_ADSGRAM_BLOCK_ID"; // Ganti ID Adsgram dari https://adsgram.ai
+        const WEB_DIRECT_AD_LINK = ""; // Ganti dengan Direct Link Monetag/Adsterra jika ada
+
+        const WALLET_ADDRESSES = {
+            USDT_TON: 'UQCUHvh2TuKJ4lPl_z42iHhtgr2SR8lnY9KgJ3jJtzAkz0h3', 
+            BTC: 'bc1qstqtjuhnrklcfk2tu344py72rm032dmmcx88av',     
+            TON: 'UQCUHvh2TuKJ4lPl_z42iHhtgr2SR8lnY9KgJ3jJtzAkz0h3',     
+            SOL: '2XbaWbSsRcfbiVAqrwXBXuPvjf7ZMf8wpyuj9Mmhfnb5'      
+        };
+
+        const HARDWARE_CATALOG = [
+            { id: 'pemula', codePrefix: 'PML', name: { id: 'Paket Pemula', en: 'Beginner Pack' }, icon: '☁️', hashrateDisplay: '55.43 Gh/s', hashrateTH: 0.05543, plans: [{ durationDays: 7, label: { id: 'Minggu', en: 'Week' }, priceIDR: 9000 }, { durationDays: 30, label: { id: 'Bulan', en: 'Month' }, priceIDR: 49000 }, { durationDays: 90, label: { id: '3 Bulan', en: '3 Months' }, priceIDR: 99000 }] },
+            { id: 'pendahuluan', codePrefix: 'PDH', name: { id: 'Paket Pendahuluan', en: 'Starter Pack' }, icon: '☁️', hashrateDisplay: '92.51 Gh/s', hashrateTH: 0.09251, plans: [{ durationDays: 7, label: { id: 'Minggu', en: 'Week' }, priceIDR: 17000 }, { durationDays: 30, label: { id: 'Bulan', en: 'Month' }, priceIDR: 69000 }, { durationDays: 90, label: { id: '3 Bulan', en: '3 Months' }, priceIDR: 129000 }] },
+            { id: 'perunggu', codePrefix: 'PRG', name: { id: 'Paket Perunggu', en: 'Bronze Pack' }, icon: '🥉', hashrateDisplay: '185.20 Gh/s', hashrateTH: 0.1852, plans: [{ durationDays: 7, label: { id: 'Minggu', en: 'Week' }, priceIDR: 32000 }, { durationDays: 30, label: { id: 'Bulan', en: 'Month' }, priceIDR: 129000 }, { durationDays: 90, label: { id: '3 Bulan', en: '3 Months' }, priceIDR: 299000 }] },
+            { id: 'perak', codePrefix: 'PRK', name: { id: 'Paket Perak', en: 'Silver Pack' }, icon: '🥈', hashrateDisplay: '370.41 Gh/s', hashrateTH: 0.37041, plans: [{ durationDays: 7, label: { id: 'Minggu', en: 'Week' }, priceIDR: 65000 }, { durationDays: 30, label: { id: 'Bulan', en: 'Month' }, priceIDR: 249000 }, { durationDays: 90, label: { id: '3 Bulan', en: '3 Months' }, priceIDR: 549000 }] },
+            { id: 'emas', codePrefix: 'EMS', name: { id: 'Paket Emas', en: 'Gold Pack' }, icon: '🥇', hashrateDisplay: '926.02 Gh/s', hashrateTH: 0.92602, plans: [{ durationDays: 7, label: { id: 'Minggu', en: 'Week' }, priceIDR: 149000 }, { durationDays: 30, label: { id: 'Bulan', en: 'Month' }, priceIDR: 599000 }, { durationDays: 90, label: { id: '3 Bulan', en: '3 Months' }, priceIDR: 1299000 }] },
+            { id: 'platinum', codePrefix: 'PLT', name: { id: 'Paket Platinum', en: 'Platinum Pack' }, icon: '💎', hashrateDisplay: '1.85 Th/s', hashrateTH: 1.85204, plans: [{ durationDays: 7, label: { id: 'Minggu', en: 'Week' }, priceIDR: 299000 }, { durationDays: 30, label: { id: 'Bulan', en: 'Month' }, priceIDR: 1199000 }, { durationDays: 90, label: { id: '3 Bulan', en: '3 Months' }, priceIDR: 2599000 }] },
+            { id: 'berlian', codePrefix: 'BRL', name: { id: 'Paket Berlian', en: 'Diamond Pack' }, icon: '💠', hashrateDisplay: '4.63 Th/s', hashrateTH: 4.63010, plans: [{ durationDays: 7, label: { id: 'Minggu', en: 'Week' }, priceIDR: 749000 }, { durationDays: 30, label: { id: 'Bulan', en: 'Month' }, priceIDR: 2999000 }, { durationDays: 90, label: { id: '3 Bulan', en: '3 Months' }, priceIDR: 6499000 }] },
+            { id: 'master', codePrefix: 'MST', name: { id: 'Paket Master', en: 'Master Pack' }, icon: '👑', hashrateDisplay: '9.26 Th/s', hashrateTH: 9.26020, plans: [{ durationDays: 7, label: { id: 'Minggu', en: 'Week' }, priceIDR: 1499000 }, { durationDays: 30, label: { id: 'Bulan', en: 'Month' }, priceIDR: 5999000 }, { durationDays: 90, label: { id: '3 Bulan', en: '3 Months' }, priceIDR: 12999000 }] }
+        ];
+
+        const TRANSLATIONS = {
+            id: {
+                subtitle: "Simulator Sewa Mining Rig (Ultra Smooth)",
+                btnRedeem: "REDEEM KODE",
+                btnWithdraw: "PENARIKAN",
+                balLabel: "Saldo Bitcoin Saat Ini",
+                passiveBadge: "● PASIF AUTOMATIS",
+                totalSats: "Total Satoshi:",
+                estUsd: "Nilai Est USD:",
+                totalHash: "TOTAL HASHRATE AKTIF",
+                perDay: "Per Hari:",
+                perSec: "Per Detik:",
+                cavernTitle: "DWARF CAVERN (60 FPS OPTIMIZED)",
+                graphTitle: "📈 GRAFIK HASHRATE",
+                adTitle: "📺 BOOSTER IKLAN (24 JAM)",
+                adDesc: "Tonton iklan untuk bonus +25 GH/s (0.025 TH/s) selama 24 jam. Batas slot disesuaikan tingkat VIP Anda.",
+                watchAdBtnText: "TONTON IKLAN (+25 GH/s / 24 Jam)",
+                activeAdSlot: "Slot Booster Iklan Aktif:",
+                noAdSlot: "Belum ada booster iklan aktif",
+                storeTitle: "🛒 TOKO SEWA RIG HARDWARE",
+                storeSubtitle: "Sewa berdasarkan Paket Bitcoin Mining",
+                activeRigTitle: "📋 STATUS RIG YANG SEDANG DISEWA",
+                noActiveRig: "Tidak ada rig aktif yang disewa saat ini.",
+                redeemModalTitle: "🎁 REDEEM KODE VOUCHER",
+                redeemModalDesc: "Masukkan Kode Aktivasi yang diberikan oleh Admin Telegram setelah Anda melakukan pembayaran.",
+                redeemInputLabel: "Kode Voucher Aktivasi:",
+                redeemSubmitBtn: "KLAIM & AKTIFKAN RIG",
+                adModalTitle: "Sponsor Iklan Kripto",
+                adModalDesc: "Memproses penayangan iklan video...",
+                claimAdBtnText: "KLAIM +25 GH/s (24 JAM)",
+                checkoutModalTitle: "PEMBAYARAN WEB3 SEWA RIG",
+                selectPayLabel: "Pilih Kripto Pembayaran:",
+                totalRentalFee: "Total Biaya Sewa:",
+                netWarnMsg: "<strong>WAJIB:</strong> Kirim USDT via <strong>Jaringan TON (Jetton)</strong>. Jangan kirim via TRC20/ERC20!",
+                payWalletAddrLabel: "Alamat Wallet Pembayaran:",
+                copyBtn: "Salin",
+                confirmStepTitle: "💡 Cara Konfirmasi:",
+                confirmStep1: "Transfer crypto sesuai nominal ke alamat wallet di atas.",
+                confirmStep2: "Klik tombol di bawah untuk langsung kirim bukti transfer ke Admin via Telegram.",
+                confirmPayBtnText: "KONFIRMASI / KIRIM BUKTI KE ADMIN",
+                wdModalTitle: "PENARIKAN HASIL TAMBANG (PAYOUT)",
+                wdTimeTitle: "Estimasi Waktu Proses: 2 - 7 Hari Kerja",
+                wdTimeDesc: "Setiap transaksi penarikan akan diproses dan diverifikasi oleh sistem mempool/admin dalam kurun waktu 2 hingga 7 hari.",
+                wdBalLabel: "Saldo Bisa Ditarik:",
+                wdNetLabel: "Pilih Jaringan Penarikan:",
+                wdAddrLabel: "Alamat Wallet Tujuan / LN Invoice:",
+                wdAmtLabel: "Jumlah Penarikan (Sats) [Min 500]:",
+                submitWdBtn: "KIRIM PENARIKAN (PROSES MEMPOOL)",
+                wdHistoryTitle: "Riwayat Penarikan Anda:",
+                noWdHistory: "Belum ada riwayat penarikan"
+            },
+            en: {
+                subtitle: "Mining Rig Rental Simulator (Ultra Smooth)",
+                btnRedeem: "REDEEM CODE",
+                btnWithdraw: "WITHDRAW",
+                balLabel: "Current Bitcoin Balance",
+                passiveBadge: "● AUTOMATIC PASSIVE",
+                totalSats: "Total Satoshi:",
+                estUsd: "Est USD Value:",
+                totalHash: "TOTAL ACTIVE HASHRATE",
+                perDay: "Per Day:",
+                perSec: "Per Second:",
+                cavernTitle: "DWARF CAVERN (60 FPS OPTIMIZED)",
+                graphTitle: "📈 HASHRATE GRAPH",
+                adTitle: "📺 AD BOOSTER (24 HOURS)",
+                adDesc: "Watch ads to get +25 GH/s (0.025 TH/s) bonus for 24 hours. Max ad slots adapt to your VIP level.",
+                watchAdBtnText: "WATCH AD (+25 GH/s / 24 Hours)",
+                activeAdSlot: "Active Ad Boost Slots:",
+                noAdSlot: "No active ad boosters yet",
+                storeTitle: "🛒 HARDWARE RIG RENTAL STORE",
+                storeSubtitle: "Rent based on Bitcoin Mining Packages",
+                activeRigTitle: "📋 CURRENTLY RENTED RIG STATUS",
+                noActiveRig: "No active rented rigs currently.",
+                redeemModalTitle: "🎁 REDEEM VOUCHER CODE",
+                redeemModalDesc: "Enter the Activation Code provided by Telegram Admin after completing payment.",
+                redeemInputLabel: "Activation Voucher Code:",
+                redeemSubmitBtn: "CLAIM & ACTIVATE RIG",
+                adModalTitle: "Crypto Ad Sponsor",
+                adModalDesc: "Processing video ad playback...",
+                claimAdBtnText: "CLAIM +25 GH/s (24 HOURS)",
+                checkoutModalTitle: "WEB3 RIG RENTAL PAYMENT",
+                selectPayLabel: "Select Payment Crypto:",
+                totalRentalFee: "Total Rental Fee:",
+                netWarnMsg: "<strong>REQUIRED:</strong> Send USDT via <strong>TON Network (Jetton)</strong>. Do not send via TRC20/ERC20!",
+                payWalletAddrLabel: "Payment Wallet Address:",
+                copyBtn: "Copy",
+                confirmStepTitle: "💡 How to Confirm:",
+                confirmStep1: "Transfer exact crypto amount to wallet address above.",
+                confirmStep2: "Click button below to send payment proof directly to Admin via Telegram.",
+                confirmPayBtnText: "CONFIRM / SEND PROOF TO ADMIN",
+                wdModalTitle: "MINING PAYOUT WITHDRAWAL",
+                wdTimeTitle: "Estimated Processing Time: 2 - 7 Working Days",
+                wdTimeDesc: "Every withdrawal transaction will be processed and verified within 2 to 7 days.",
+                wdBalLabel: "Withdrawable Balance:",
+                wdNetLabel: "Select Withdrawal Network:",
+                wdAddrLabel: "Destination Wallet Address / LN Invoice:",
+                wdAmtLabel: "Withdrawal Amount (Sats) [Min 500]:",
+                submitWdBtn: "SUBMIT WITHDRAWAL (MEMPOOL PROCESS)",
+                wdHistoryTitle: "Your Withdrawal History:",
+                noWdHistory: "No withdrawal history yet"
+            }
+        };
+
+        let currentLang = 'id';
+
+        let state = {
+            satsBalance: 0,
+            baseHashrateTH: 0.025,
+            adBoostSlots: [],
+            rentals: [],
+            usedCodes: [],
+            withdrawals: [],
+            selectedCheckout: null,
+            selectedCurrency: 'USDT_TON',
+            vipLevel: 0,
+            vipAdsWatched: 0
+        };
+
+        let currentTierIndex = 0;
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'id' ? 'en' : 'id';
+            document.getElementById('currentLangLabel').innerText = currentLang === 'id' ? 'ID / EN' : 'EN / ID';
+            applyTranslations();
+            renderHardwareStore();
+            renderUI();
+        }
+
+        function applyTranslations() {
+            const t = TRANSLATIONS[currentLang];
+            for (let key in t) {
+                const el = document.getElementById(`t-${key}`);
+                if (el) el.innerHTML = t[key];
+            }
+        }
+
+        function loadGameState() {
+            try {
+                const saved = localStorage.getItem('cyberdwarf_btc_state_v5');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    state = { ...state, ...parsed };
+                }
+            } catch(e) {}
+            cleanExpiredSlots();
+        }
+
+        function saveGameState() {
+            try {
+                localStorage.setItem('cyberdwarf_btc_state_v5', JSON.stringify(state));
+            } catch(e) {}
+        }
+
+        function cleanExpiredSlots() {
+            const now = Date.now();
+            state.adBoostSlots = (state.adBoostSlots || []).filter(s => s.expiresAt > now);
+            state.rentals = (state.rentals || []).filter(r => r.expiresAt > now);
+        }
+
+        function getMaxAdSlots() {
+            return state.vipLevel >= 1 ? 30 : 25;
+        }
+
+        function getMaxWithdrawalLimit() {
+            return state.vipLevel >= 1 ? 1500 : 1000;
+        }
+
+        function calculateTotalHashrateTH() {
+            cleanExpiredSlots();
+            const adHash = (state.adBoostSlots || []).length * 0.025;
+            const rentalHash = (state.rentals || []).reduce((sum, r) => sum + r.hashrateTH, 0);
+            return state.baseHashrateTH + adHash + rentalHash;
+        }
+
+        // --- PENAYANGAN IKLAN ---
+        function triggerAdWatcher() {
+            const maxAds = getMaxAdSlots();
+            if ((state.adBoostSlots || []).length >= maxAds) {
+                alert(currentLang === 'id' ? `Batas maksimal iklan aktif (${maxAds} iklan) untuk tingkat VIP Anda telah tercapai!` : `Maximum active ad limit (${maxAds} ads) for your VIP level has been reached!`);
+                return;
+            }
+
+            if (typeof window.Adsgram !== 'undefined') {
+                const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+                AdController.show().then((result) => { claimAdReward(); }).catch((error) => {
+                    alert(currentLang === 'id' ? 'Gagal memuat iklan Adsgram.' : 'Failed to load Adsgram ad.');
+                });
+                return;
+            }
+
+            if (WEB_DIRECT_AD_LINK) window.open(WEB_DIRECT_AD_LINK, '_blank');
+
+            openModal('adModal');
+            const bar = document.getElementById('adProgressBar');
+            const timerText = document.getElementById('adTimerText');
+            const claimBtn = document.getElementById('claimAdBtn');
+
+            bar.style.width = '0%'; claimBtn.disabled = true;
+            claimBtn.className = "pixel-btn bg-slate-800 text-slate-500 font-pixel text-xs py-2.5 rounded cursor-not-allowed";
+
+            let countdown = 5; timerText.innerText = `${countdown} ${currentLang === 'id' ? 'Detik...' : 'Seconds...'}`;
+            const adInterval = setInterval(() => {
+                countdown--;
+                bar.style.width = `${((5 - countdown) / 5) * 100}%`;
+                if (countdown > 0) {
+                    timerText.innerText = `${countdown} ${currentLang === 'id' ? 'Detik...' : 'Seconds...'}`;
+                } else {
+                    clearInterval(adInterval);
+                    timerText.innerText = currentLang === 'id' ? "Selesai!" : "Done!";
+                    claimBtn.disabled = false;
+                    claimBtn.className = "pixel-btn pixel-btn-amber bg-amber-600 text-slate-950 font-pixel text-xs py-2.5 rounded cursor-pointer font-bold";
+                }
+            }, 1000);
+        }
+
+        function triggerVipAdWatcher() {
+            if (state.vipLevel >= 1) {
+                alert(currentLang === 'id' ? 'Anda sudah mencapai VIP 1 Maksimal!' : 'You have reached Max VIP 1!');
+                return;
+            }
+
+            const processVipReward = () => {
+                state.vipAdsWatched = (state.vipAdsWatched || 0) + 1;
+                if (state.vipAdsWatched >= 100) {
+                    state.vipLevel = 1;
+                    alert(currentLang === 'id' ? '🎉 SELAMAT! Anda sekarang menjadi VIP 1 (Max Ad 30, Max WD 1,500 Sats)!' : '🎉 CONGRATS! You are now VIP 1 (Max Ad 30, Max WD 1,500 Sats)!');
+                }
+                saveGameState();
+                renderUI();
+            };
+
+            if (typeof window.Adsgram !== 'undefined') {
+                const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+                AdController.show().then(() => processVipReward()).catch(() => alert('Gagal memuat iklan VIP.'));
+                return;
+            }
+
+            processVipReward();
+        }
+
+        function claimAdReward() {
+            const maxAds = getMaxAdSlots();
+            if ((state.adBoostSlots || []).length >= maxAds) return;
+            state.adBoostSlots.push({ id: 'ad_' + Date.now(), expiresAt: Date.now() + 86400000 });
+            saveGameState(); closeModal('adModal'); renderUI();
+        }
+
+        function changeCatalogTier(direction) {
+            currentTierIndex = (currentTierIndex + direction + HARDWARE_CATALOG.length) % HARDWARE_CATALOG.length;
+            renderHardwareStore();
+        }
+
+        function renderHardwareStore() {
+            const hw = HARDWARE_CATALOG[currentTierIndex];
+            const container = document.getElementById('catalogCardContainer');
+            const hwName = hw.name[currentLang] || hw.name.id;
+            document.getElementById('catalogTierDisplay').innerText = `${hw.icon} ${hwName}`;
+
+            container.innerHTML = `
+                <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-400">Hashrate Rig:</span>
+                    <span class="text-amber-400 font-bold">+${hw.hashrateDisplay}</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-1">
+                    ${hw.plans.map(p => `
+                        <button onclick="openCheckout('${hw.id}', ${p.durationDays}, ${p.priceIDR})" class="pixel-btn pixel-btn-cyan bg-cyan-600 hover:bg-cyan-500 text-slate-950 p-2 rounded text-center cursor-pointer font-bold text-[10px]">
+                            <div class="font-pixel">${p.durationDays} ${p.label[currentLang] || p.label.id}</div>
+                            <div class="text-[11px] mt-1 text-slate-950 font-mono">Rp ${(p.priceIDR).toLocaleString()}</div>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function openCheckout(hardwareId, durationDays, priceIDR) {
+            const hw = HARDWARE_CATALOG.find(h => h.id === hardwareId);
+            if (!hw) return;
+            state.selectedCheckout = { hardwareId, durationDays, priceIDR };
+            const hwName = hw.name[currentLang] || hw.name.id;
+            document.getElementById('checkoutSummary').innerHTML = `
+                <div class="flex justify-between font-bold text-slate-200">
+                    <span>${hwName} (${durationDays} ${currentLang === 'id' ? 'Hari' : 'Days'})</span>
+                    <span class="text-amber-400">+${hw.hashrateDisplay}</span>
+                </div>
+            `;
+            selectPayCurrency('USDT_TON');
+            openModal('checkoutModal');
+        }
+
+        function selectPayCurrency(curr) {
+            state.selectedCurrency = curr;
+            ['USDT_TON', 'BTC', 'TON', 'SOL'].forEach(c => {
+                const btn = document.getElementById(`pay${c}`);
+                if (btn) {
+                    btn.className = c === curr
+                        ? "py-2 rounded border border-cyan-500 bg-cyan-950 text-cyan-300 text-center cursor-pointer leading-tight"
+                        : "py-2 rounded border border-slate-800 bg-slate-900 text-slate-400 text-center cursor-pointer hover:border-slate-700 leading-tight";
+                }
+            });
+
+            const warnBox = document.getElementById('networkWarningBadge');
+            if (curr === 'USDT_TON') warnBox.classList.remove('hidden'); else warnBox.classList.add('hidden');
+
+            if (!state.selectedCheckout) return;
+            const cryptoAmt = (state.selectedCheckout.priceIDR / 15500.0) / CRYPTO_RATES[curr];
+            const label = curr === 'USDT_TON' ? 'USDT (TON)' : curr;
+            document.getElementById('checkoutCryptoAmount').innerText = `${cryptoAmt.toFixed(curr === 'BTC' ? 6 : 3)} ${label}`;
+            document.getElementById('checkoutWalletAddr').innerText = WALLET_ADDRESSES[curr];
+        }
+
+        function copyWalletAddr() {
+            navigator.clipboard.writeText(document.getElementById('checkoutWalletAddr').innerText);
+            alert(currentLang === 'id' ? 'Alamat wallet berhasil disalin!' : 'Wallet address copied successfully!');
+        }
+
+        function processWeb3Payment() {
+            if (!state.selectedCheckout) return;
+            const hw = HARDWARE_CATALOG.find(h => h.id === state.selectedCheckout.hardwareId);
+            const hwName = hw.name[currentLang] || hw.name.id;
+            const curr = state.selectedCurrency;
+            const cryptoAmt = (state.selectedCheckout.priceIDR / 15500.0) / CRYPTO_RATES[curr];
+            const currLabel = curr === 'USDT_TON' ? 'USDT (TON)' : curr;
+
+            const textMsg = encodeURIComponent(
+                `Halo Admin CyberDwarf!\n\nSaya telah melakukan transfer sewa rig:\n- Paket: ${hwName} (${state.selectedCheckout.durationDays} ${currentLang === 'id' ? 'Hari' : 'Days'})\n- Nominal: ${cryptoAmt.toFixed(curr === 'BTC' ? 6 : 3)} ${currLabel}\n- Alamat Wallet Tujuan: ${WALLET_ADDRESSES[curr]}\n\nMohon konfirmasi dan berikan Kode Voucher Aktivasi saya.`
+            );
+
+            const cleanPhone = ADMIN_PHONE.replace('+', '');
+            window.open(`https://t.me/+${cleanPhone}?text=${textMsg}`, '_blank');
+            closeModal('checkoutModal');
+        }
+
+        function redeemVoucherCode() {
+            const codeInput = document.getElementById('voucherCodeInput').value.trim().toUpperCase();
+            if (!codeInput) return;
+
+            if (state.usedCodes.includes(codeInput)) {
+                alert(currentLang === 'id' ? 'Kode voucher ini sudah pernah digunakan!' : 'This voucher code has already been used!');
+                return;
+            }
+
+            const parts = codeInput.split('-');
+            if (parts.length >= 2) {
+                const prefix = parts[0];
+                const foundHw = HARDWARE_CATALOG.find(h => h.codePrefix === prefix);
+                if (foundHw) {
+                    let days = 30;
+                    if (parts[1].includes('7D')) days = 7;
+                    else if (parts[1].includes('90D')) days = 90;
+                    else if (parts[1].includes('30D')) days = 30;
+
+                    state.rentals.push({
+                        id: 'rental_' + Date.now(),
+                        hardwareId: foundHw.id,
+                        hashrateTH: foundHw.hashrateTH,
+                        expiresAt: Date.now() + (days * 86400 * 1000)
+                    });
+                    state.usedCodes.push(codeInput);
+                    saveGameState();
+                    renderUI();
+                    closeModal('redeemModal');
+                    alert(currentLang === 'id' ? '🎉 Berhasil! Rig sewa telah aktif di akun Anda.' : '🎉 Success! Rental rig is now active on your account.');
+                    return;
+                }
+            }
+            alert(currentLang === 'id' ? 'Kode voucher tidak valid atau salah!' : 'Invalid or incorrect voucher code!');
+        }
+
+        function submitWithdrawal() {
+            const addr = document.getElementById('wdAddressInput').value.trim();
+            const amountSats = parseFloat(document.getElementById('wdAmountInput').value);
+            const maxWd = getMaxWithdrawalLimit();
+
+            if (!addr || isNaN(amountSats) || amountSats < 500 || amountSats > maxWd || amountSats > state.satsBalance) {
+                alert(currentLang === 'id' ? `Penarikan gagal: Periksa alamat, saldo, dan batas maksimal penarikan VIP Anda (Min 500, Max ${maxWd} Sats)!` : `Withdrawal failed: Check address, balance, and VIP max limit (Min 500, Max ${maxWd} Sats)!`);
+                return;
+            }
+
+            state.satsBalance -= amountSats;
+            if (!state.withdrawals) state.withdrawals = [];
+            state.withdrawals.unshift({ amount: amountSats, network: document.getElementById('wdNetworkSelect').value, status: 'MEMPOOL' });
+            saveGameState(); renderUI(); closeModal('wdModal');
+
+            alert(currentLang === 'id' ? 'Permintaan penarikan berhasil dikirim! Estimasi waktu proses 2-7 hari kerja.' : 'Withdrawal request submitted! Estimated processing time is 2-7 working days.');
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        // --- RENDER UI ---
+        function renderUI() {
+            const currentHashTH = calculateTotalHashrateTH();
+            const satsPerSec = currentHashTH * SATS_PER_TH_SEC;
+            const satsPerDay = currentHashTH * SATS_PER_TH_DAY;
+
+            const sats = state.satsBalance;
+            const btc = sats / 100000000.0;
+            const usd = btc * 68000.0;
+
+            document.getElementById('btcBalanceDisplay').innerText = btc.toFixed(8);
+            document.getElementById('satsBalanceDisplay').innerText = sats.toFixed(4);
+            document.getElementById('usdValueDisplay').innerText = `$${usd.toFixed(4)} USD`;
+
+            document.getElementById('totalHashrateDisplay').innerText = currentHashTH.toFixed(3);
+            document.getElementById('ghEquivalentDisplay').innerText = `(${(currentHashTH * 1000).toFixed(1)} GH/s)`;
+            document.getElementById('satsPerDayDisplay').innerText = `${satsPerDay.toFixed(2)} Sats`;
+            document.getElementById('satsPerSecDisplay').innerText = `${satsPerSec.toFixed(8)} Sats`;
+
+            // VIP Updates
+            const currentVip = state.vipLevel || 0;
+            const maxAds = getMaxAdSlots();
+            document.getElementById('vipLevelBadge').innerText = `VIP ${currentVip}`;
+            document.getElementById('vipModalLevel').innerText = `VIP ${currentVip}`;
+            const vipWatched = state.vipAdsWatched || 0;
+            document.getElementById('vipAdProgressText').innerText = `${Math.min(vipWatched, 100)} / 100`;
+            document.getElementById('vipProgressBar').style.width = `${Math.min((vipWatched / 100) * 100, 100)}%`;
+
+            // Ad Slots Updates
+            const activeAdCount = (state.adBoostSlots || []).length;
+            document.getElementById('adStackCounter').innerText = `${activeAdCount} / ${maxAds} ${currentLang === 'id' ? 'Iklan' : 'Ads'}`;
+            document.getElementById('totalAdBoostHash').innerText = `+${(activeAdCount * 0.025).toFixed(3)} TH/s`;
+
+            const adSlotsContainer = document.getElementById('adSlotsContainer');
+            if (activeAdCount === 0) {
+                adSlotsContainer.innerHTML = `<div id="t-noAdSlot" class="text-slate-500 text-center italic py-2 text-[11px]">${TRANSLATIONS[currentLang].noAdSlot}</div>`;
+            } else {
+                const now = Date.now();
+                adSlotsContainer.innerHTML = state.adBoostSlots.map((slot, index) => {
+                    const remSec = Math.max(0, Math.floor((slot.expiresAt - now) / 1000));
+                    const h = Math.floor(remSec / 3600);
+                    const m = Math.floor((remSec % 3600) / 60);
+                    return `
+                        <div class="bg-slate-950 p-2 rounded border border-amber-900/60 flex justify-between items-center text-[11px]">
+                            <span class="text-amber-400 font-bold">Booster #${index + 1} (+0.025 TH/s)</span>
+                            <span class="text-slate-300 font-mono">${h}h ${m}m</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const rentalsContainer = document.getElementById('activeRentalsContainer');
+            if ((state.rentals || []).length === 0) {
+                rentalsContainer.innerHTML = `<div class="text-slate-500 text-center italic py-4 text-xs">${TRANSLATIONS[currentLang].noActiveRig}</div>`;
+            } else {
+                const now = Date.now();
+                rentalsContainer.innerHTML = state.rentals.map(r => {
+                    const hw = HARDWARE_CATALOG.find(h => h.id === r.hardwareId);
+                    const hwName = hw ? (hw.name[currentLang] || hw.name.id) : 'Hardware';
+                    const remainingSec = Math.max(0, Math.floor((r.expiresAt - now) / 1000));
+                    const days = Math.floor(remainingSec / 86400);
+                    const h = Math.floor((remainingSec % 86400) / 3600);
+                    const m = Math.floor((remainingSec % 3600) / 60);
+
+                    return `
+                        <div class="bg-slate-950 p-2 rounded border border-emerald-900/60 flex justify-between items-center text-xs">
+                            <span class="text-slate-200 font-bold">${hwName} (+${hw ? hw.hashrateDisplay : r.hashrateTH + ' TH/s'})</span>
+                            <span class="text-amber-400 font-mono font-bold">${days}d ${h}h ${m}m</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            document.getElementById('wdModalSats').innerText = `${sats.toFixed(4)} Sats`;
+
+            const wdHistoryList = document.getElementById('wdHistoryList');
+            if ((state.withdrawals || []).length === 0) {
+                wdHistoryList.innerHTML = `<div class="text-slate-500 text-center italic py-2 text-[11px]">${TRANSLATIONS[currentLang].noWdHistory}</div>`;
+            } else {
+                wdHistoryList.innerHTML = state.withdrawals.map(w => `
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800 flex justify-between items-center text-[11px]">
+                        <div>
+                            <span class="text-amber-400 font-bold">${w.amount} Sats</span>
+                            <span class="text-slate-500 font-mono ml-1">(${w.network})</span>
+                        </div>
+                        <span class="bg-amber-950 text-amber-300 border border-amber-800 px-1.5 py-0.5 rounded text-[10px] font-bold animate-pulse">
+                            ⏳ MEMPOOL (2-7 ${currentLang === 'id' ? 'Hari' : 'Days'})
+                        </span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // --- CANVAS ANIMATION ---
+        let canvas, ctx;
+        let dwarves = [
+            { x: 50, speed: 0.8, dir: 1, swing: 0, state: 'mine' },
+            { x: 180, speed: 0.6, dir: -1, swing: 0, state: 'mine' },
+            { x: 300, speed: 1.0, dir: 1, swing: 0, state: 'laser' }
+        ];
+
+        function initCavernCanvas() {
+            canvas = document.getElementById('cavernCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            requestAnimationFrame(drawCavern);
+        }
+
+        function resizeCanvas() {
+            if (!canvas || !canvas.parentElement) return;
+            canvas.width = canvas.parentElement.clientWidth || 500;
+            canvas.height = canvas.parentElement.clientHeight || 250;
+        }
+
+        function drawCavern() {
+            if (!ctx || !canvas) return;
+            const w = canvas.width;
+            const h = canvas.height;
+            const groundY = h - 35;
+
+            ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = '#060913'; ctx.fillRect(0, 0, w, h);
+
+            ctx.fillStyle = '#1e293b'; ctx.fillRect(0, groundY, w, 35);
+            ctx.fillStyle = '#38bdf8'; ctx.fillRect(0, groundY, w, 2);
+
+            dwarves.forEach((d, idx) => {
+                d.x += d.speed * d.dir;
+                if (d.x < 30 || d.x > w - 50) d.dir *= -1;
+                const dy = groundY - 20;
+
+                ctx.fillStyle = idx === 2 ? '#ec4899' : '#f59e0b'; ctx.fillRect(d.x, dy, 12, 12);
+                ctx.fillStyle = '#fef08a'; ctx.fillRect(d.x + (d.dir > 0 ? 6 : -2), dy + 6, 8, 6);
+                ctx.fillStyle = '#0284c7'; ctx.fillRect(d.x - 1, dy - 4, 14, 4);
+
+                if (d.state === 'laser') {
+                    ctx.fillStyle = '#a855f7'; ctx.fillRect(d.x + 10, dy + 2, 20, 3);
+                } else {
+                    d.swing += 0.15;
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.fillRect(d.x + (d.dir > 0 ? 12 : -6), dy - Math.sin(d.swing) * 6, 4, 10);
+                }
+            });
+
+            requestAnimationFrame(drawCavern);
+        }
+
+        // --- TELEMETRY GRAPH ---
+        let graphCanvas, gCtx;
+        let hashHistory = [0.025, 0.025, 0.025, 0.025];
+
+        function initTelemetryCanvas() {
+            graphCanvas = document.getElementById('telemetryCanvas');
+            if (!graphCanvas) return;
+            gCtx = graphCanvas.getContext('2d');
+            resizeGraphCanvas();
+            window.addEventListener('resize', resizeGraphCanvas);
+        }
+
+        function resizeGraphCanvas() {
+            if (!graphCanvas || !graphCanvas.parentElement) return;
+            graphCanvas.width = graphCanvas.parentElement.clientWidth || 300;
+            graphCanvas.height = graphCanvas.parentElement.clientHeight || 120;
+        }
+
+        function renderTelemetryGraph() {
+            if (!gCtx || !graphCanvas) return;
+            const w = graphCanvas.width; const h = graphCanvas.height;
+
+            gCtx.clearRect(0, 0, w, h);
+            gCtx.strokeStyle = '#1e293b'; gCtx.beginPath();
+            for (let y = 0; y < h; y += 20) { gCtx.moveTo(0, y); gCtx.lineTo(w, y); }
+            gCtx.stroke();
+
+            const currentHash = calculateTotalHashrateTH();
+            hashHistory.push(currentHash);
+            if (hashHistory.length > 25) hashHistory.shift();
+
+            const maxHash = Math.max(...hashHistory, 0.1);
+            gCtx.strokeStyle = '#06b6d4'; gCtx.lineWidth = 2; gCtx.beginPath();
+
+            hashHistory.forEach((val, i) => {
+                const x = (i / (hashHistory.length - 1)) * w;
+                const y = h - ((val / (maxHash * 1.2)) * h) - 4;
+                if (i === 0) gCtx.moveTo(x, y); else gCtx.lineTo(x, y);
+            });
+            gCtx.stroke();
+        }
+
+        // --- GAME TICK LOOP ---
+        window.addEventListener('load', () => {
+            loadGameState();
+            applyTranslations();
+            renderHardwareStore();
+            initCavernCanvas();
+            initTelemetryCanvas();
+            renderUI();
+
+            // Pasif Satoshi Generator Loop
+            setInterval(() => {
+                const currentHashTH = calculateTotalHashrateTH();
+                const earnedSats = currentHashTH * SATS_PER_TH_SEC;
+                state.satsBalance += earnedSats;
+                saveGameState();
+                renderUI();
+            }, 1000);
+
+            // Telemetry graph loop
+            setInterval(() => {
+                renderTelemetryGraph();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
+```
