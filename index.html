@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
-    <!-- SDK ADSGRAM (Aktifkan jika menggunakan Adsgram di Telegram Mini App) -->
-    <!-- <script src="https://adsgram.ai/js/adsgram-ad-sdk.js"></script> -->
+    <!-- SDK ADSGRAM (AKTIF) -->
+    <script src="https://adsgram.ai/js/adsgram-ad-sdk.js"></script>
 
     <style>
         body {
@@ -107,7 +107,7 @@
                 ⭐ <span id="vipLevelBadge">VIP 0</span>
             </button>
 
-            <!-- REDEEM KODE (COMING SOON) -->
+            <!-- REDEEM KODE -->
             <button onclick="openModal('redeemModal')" class="pixel-btn pixel-btn-purple bg-purple-600 hover:bg-purple-500 text-white font-pixel text-xs px-3 py-2 rounded flex items-center gap-1 cursor-pointer relative overflow-hidden">
                 🎁 <span id="t-btnRedeem">REDEEM KODE</span>
                 <span class="absolute -top-1 -right-1 bg-amber-500 text-slate-950 font-sans font-extrabold text-[8px] px-1 rounded-bl shadow animate-pulse">SOON</span>
@@ -180,6 +180,21 @@
                 </div>
             </div>
 
+            <!-- AREA GAMBAR KHUSUS 640x360 -->
+            <div class="pixel-box pixel-box-amber p-2 rounded-lg flex flex-col items-center justify-center bg-slate-950">
+                <div class="w-full flex justify-between items-center mb-1.5 px-2">
+                    <span class="text-[10px] font-pixel text-amber-400">🖼️ CUSTOM GAME DISPLAY (640x360)</span>
+                    <span class="text-[9px] text-slate-500 font-mono">RASIO 16:9</span>
+                </div>
+                <div class="w-full max-w-[640px] aspect-video bg-slate-900 rounded border-2 border-dashed border-slate-700 flex flex-col items-center justify-center relative overflow-hidden group">
+                    <img id="customBannerImg" src="https://via.placeholder.com/640x360/0f172a/38bdf8?text=AREA+GAMBAR+640x360+(CROP+HERE)" alt="Custom Banner 640x360" class="w-full h-full object-cover">
+                    
+                    <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-xs text-amber-300 font-pixel p-4 text-center">
+                        Ganti atribut src="..." pada tag &lt;img id="customBannerImg"&gt; dengan gambar 640x360 Anda
+                    </div>
+                </div>
+            </div>
+
             <!-- Canvas Cavern -->
             <div class="pixel-box p-1 rounded-lg relative overflow-hidden bg-slate-950">
                 <div id="t-cavernTitle" class="absolute top-3 left-3 z-10 bg-slate-900/90 backdrop-blur px-2.5 py-1 rounded border border-slate-700 text-[10px] font-pixel text-cyan-400 flex items-center gap-1.5">
@@ -234,7 +249,7 @@
                 </div>
             </div>
 
-            <!-- HARDWARE STORE (COMING SOON BADGE) -->
+            <!-- HARDWARE STORE -->
             <div class="pixel-box pixel-box-cyan p-4 rounded-lg flex flex-col gap-4 relative overflow-hidden">
                 <div class="flex justify-between items-start">
                     <div>
@@ -305,7 +320,7 @@
         </div>
     </div>
 
-    <!-- MODAL REDEEM VOUCHER (COMING SOON) -->
+    <!-- MODAL REDEEM VOUCHER -->
     <div id="redeemModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="pixel-box pixel-box-purple p-6 rounded-lg max-w-sm w-full flex flex-col gap-4 relative">
             <button onclick="closeModal('redeemModal')" class="absolute top-3 right-3 text-slate-400 hover:text-white font-mono text-lg cursor-pointer">✕</button>
@@ -458,9 +473,9 @@
         const SATS_PER_TH_SEC = SATS_PER_TH_DAY / 86400;
         const CRYPTO_RATES = { USDT_TON: 1, BTC: 68000, TON: 5.2, SOL: 145 };
 
-        // KONFIGURASI JARINGAN IKLAN
-        const ADSGRAM_BLOCK_ID = "YOUR_ADSGRAM_BLOCK_ID"; // Ganti ID Adsgram dari https://adsgram.ai
-        const WEB_DIRECT_AD_LINK = ""; // Ganti dengan Direct Link Monetag/Adsterra jika ada
+        // KONFIGURASI JARINGAN IKLAN ADSGRAM
+        const ADSGRAM_BLOCK_ID = "56100";
+        const WEB_DIRECT_AD_LINK = ""; 
 
         const WALLET_ADDRESSES = {
             USDT_TON: 'UQCUHvh2TuKJ4lPl_z42iHhtgr2SR8lnY9KgJ3jJtzAkz0h3', 
@@ -522,7 +537,7 @@
                 confirmPayBtnText: "KONFIRMASI / KIRIM BUKTI KE ADMIN",
                 wdModalTitle: "PENARIKAN HASIL TAMBANG (PAYOUT)",
                 wdTimeTitle: "Estimasi Waktu Proses: 2 - 7 Hari Kerja",
-                wdTimeDesc: "Setiap transaksi penarikan akan diproses dan diverifikasi oleh sistem mempool/admin dalam kurun waktu 2 hingga 7 hari.",
+                wdTimeDesc: "Setiap transaksi penarikan akan dipproses dan diverifikasi oleh sistem mempool/admin dalam kurun waktu 2 hingga 7 hari.",
                 wdBalLabel: "Saldo Bisa Ditarik:",
                 wdNetLabel: "Pilih Jaringan Penarikan:",
                 wdAddrLabel: "Alamat Wallet Tujuan / LN Invoice:",
@@ -664,8 +679,10 @@
 
             if (typeof window.Adsgram !== 'undefined') {
                 const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
-                AdController.show().then((result) => { claimAdReward(); }).catch((error) => {
-                    alert(currentLang === 'id' ? 'Gagal memuat iklan Adsgram.' : 'Failed to load Adsgram ad.');
+                AdController.show().then((result) => { 
+                    claimAdReward(); 
+                }).catch((error) => {
+                    alert(currentLang === 'id' ? 'Gagal memuat iklan Adsgram atau iklan ditutup.' : 'Failed to load Adsgram ad or ad was closed.');
                 });
                 return;
             }
@@ -787,11 +804,13 @@
             const cryptoAmt = (state.selectedCheckout.priceIDR / 15500.0) / CRYPTO_RATES[curr];
             const label = curr === 'USDT_TON' ? 'USDT (TON)' : curr;
             document.getElementById('checkoutCryptoAmount').innerText = `${cryptoAmt.toFixed(curr === 'BTC' ? 6 : 3)} ${label}`;
-            document.getElementById('checkoutWalletAddr').innerText = WALLET_ADDRESSES[curr];
+            document.getElementById('checkoutWalletAddr').value = WALLET_ADDRESSES[curr];
         }
 
         function copyWalletAddr() {
-            navigator.clipboard.writeText(document.getElementById('checkoutWalletAddr').innerText);
+            const addrInput = document.getElementById('checkoutWalletAddr');
+            addrInput.select();
+            navigator.clipboard.writeText(addrInput.value);
             alert(currentLang === 'id' ? 'Alamat wallet berhasil disalin!' : 'Wallet address copied successfully!');
         }
 
@@ -1086,3 +1105,4 @@
     </script>
 </body>
 </html>
+```
